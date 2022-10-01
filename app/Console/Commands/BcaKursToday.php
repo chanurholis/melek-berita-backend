@@ -2,9 +2,10 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Support\Arr;
 use Illuminate\Console\Command;
 use Symfony\Component\DomCrawler\Crawler;
+
+use App\Models\DataSourceLookup;
 
 class BcaKursToday extends Command
 {
@@ -30,7 +31,7 @@ class BcaKursToday extends Command
     public function __construct()
     {
         parent::__construct();
-        $this->dataSource = 'https://www.bca.co.id/id/informasi/kurs';
+        $this->dataSource = DataSourceLookup::getKursBCAToday();
     }
 
     /**
