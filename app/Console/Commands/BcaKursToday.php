@@ -42,23 +42,71 @@ class BcaKursToday extends Command
     public function handle()
     {
         try {
+            $dataSource = $this->dataSource;
+            if (empty($dataSource)) {
+                $this->error("\nData source not found!\n");
+                die;
+            }
             $bcaKursContentToday = file_get_contents($this->dataSource);
             $crawler = new Crawler($bcaKursContentToday);
             $bcaKursTableToday = $crawler->filterXPath('//*[@id="scrolling-table"]/table');
-            print_r($bcaKursTableToday->nodeName());
-            die;
-            // $mataUangColumn = $bcaKursTableToday->filter('//*[@id="scrolling-table"]/table/thead');
-            // Log::debug(print_r($bcaKursTableToday, true)); die;
-            // $example = $bcaKursTableToday->filter('thead');
-            foreach ($bcaKursTableToday as $key => $value) {
-                $columnHeader = explode(' ', $value->textContent);
-                print_r($value->textContent);
-                die;
+            $tbody = $bcaKursTableToday->filter('tbody');
+            
+            $tr = $tbody->filter('tr');
+            
+            $example = [];
+            $paragraphData = $tr->filter('p');
+            foreach ($paragraphData as $key => $value) {
+                $example[] = $value->nodeValue;
             }
-            print_r($bcaKursTableToday);
+
+            // Expected result
+            // [
+            //     [
+            //         'mata_uang' => 'USD',
+            //         'e_rate_beli' => '15.180,00',
+            //         'e_rate_jual' => '15.200,00',
+            //         'tt_counter_beli' => '15.200,00',
+            //         'tt_counter_jual' => '15.200,00',
+            //         'bank_notes_beli' => '15.200,00',
+            //         'bank_notes_jual' => '15.200,00',
+            //     ],
+            //     [
+            //         'mata_uang' => 'SGD',
+            //         'e_rate_beli' => '15.180,00',
+            //         'e_rate_jual' => '15.200,00',
+            //         'tt_counter_beli' => '15.200,00',
+            //         'tt_counter_jual' => '15.200,00',
+            //         'bank_notes_beli' => '15.200,00',
+            //         'bank_notes_jual' => '15.200,00',
+            //     ],
+            // ]
+
+            $result = [];
+            for ($i = 0; $i < count($example); $i++) { 
+                if ($i % 7 == 0) {
+                    print_r('buat array barru');
+                    // $result[$i]['mata_uang'] = $example[$i];
+                }
+            }
+
+            print_r($result);
             die;
-        } catch (\Throwable $th) {
-            throw $th;
+
+            $firstCol = $tr->filter('.first-col');
+            $firstColSpan = $firstCol->filter('span');
+            $firstColSpanParagraph = $firstColSpan->filter('p');
+            
+            $mataUang = [];
+            foreach ($firstColSpanParagraph as $key => $value) {
+                $mataUang[] = $value->nodeValue;
+            }
+
+
+            print_r($mataUang);
+            die;
+        } catch (\Exception $e) {
+            $this->error($e->getMessage());
         }
     }
 }
