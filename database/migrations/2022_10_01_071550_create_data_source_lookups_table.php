@@ -19,6 +19,7 @@ class CreateDataSourceLookupsTable extends Migration
             $table->string('name')->nullable(false);
             $table->string('description')->nullable();
             $table->string('value')->nullable(false);
+            $table->integer('lookup_id')->nullable(false);
             $table->timestamps();
         });
     }
