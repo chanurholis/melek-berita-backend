@@ -22,7 +22,7 @@ class DataSourceLookup extends Model
      * 
      * @return Object
      */
-    public static function getKursBCAToday() 
+    public static function getKursBCAToday()
     {
         $dataSourceLookup = self::where('key', DataSourceConstants::BCA_KURS_HARI_INI)->first();
 
@@ -36,11 +36,16 @@ class DataSourceLookup extends Model
                 $sourceUrl = Lookup::findOrFail($lookupId);
                 $sourceUrl = Arr::get($sourceUrl, 'value');
                 if (!$sourceUrl) throw new \Exception('Source URL not found!');
-                return $sourceUrl.$endpoint;
+                return $sourceUrl . $endpoint;
             } catch (\Throwable $th) {
                 Log::error($th->getMessage());
                 return $th->getMessage();
             }
         }
+    }
+
+    public static function getEndpoint()
+    {
+        return "it's work!";
     }
 }
