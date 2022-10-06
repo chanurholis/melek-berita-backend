@@ -84,10 +84,13 @@ class BcaKursToday extends Command
 
             $result = [];
             for ($i = 0; $i < count($example); $i++) { 
-                if ($i % 7 == 0) {
-                    print_r('buat array barru');
-                    // $result[$i]['mata_uang'] = $example[$i];
-                }
+                $result[$i] = [
+                    'mata_uang' => $example[$i],
+                    'e_rate_beli' => $example[$i++]
+                ];
+                // if ($i % 7 == 0) {
+                //     $result[$i] = $example[$i];
+                // }
             }
 
             print_r($result);
