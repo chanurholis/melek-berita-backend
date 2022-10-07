@@ -1,0 +1,22 @@
+[
+    {
+        "issue": {
+            "timestamps": 20221006031754,
+            "year": 2022,
+            "month": 10,
+            "day": "06",
+            "hour": "03",
+            "minute": "13",
+            "second": "54"
+        },
+        "area": {
+            "name": "Bandung",
+            "domain": "Jawa Barat",
+            "coordinate": "107.64691 -6.90992"
+        },
+        "max_temprature": {
+            "date_time": 202210061200,
+            "celcius": ""
+        }
+    }
+]
