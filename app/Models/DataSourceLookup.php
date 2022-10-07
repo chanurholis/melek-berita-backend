@@ -6,7 +6,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-use App\Models\DataSourceConstants;
+use App\Constants;
 use Illuminate\Support\Facades\Log;
 
 class DataSourceLookup extends Model
@@ -24,7 +24,7 @@ class DataSourceLookup extends Model
      */
     public static function getKursBCAToday()
     {
-        $dataSourceLookup = self::where('key', DataSourceConstants::BCA_KURS_HARI_INI)->first();
+        $dataSourceLookup = self::where('key', Constants::BCA_KURS_HARI_INI)->first();
 
         if ($dataSourceLookup) {
             $lookupId = Arr::get($dataSourceLookup, 'lookup_id');
@@ -44,8 +44,25 @@ class DataSourceLookup extends Model
         }
     }
 
-    public static function getEndpoint()
+    public static function getEndpoint($dataSourceKey)
     {
-        return "it's work!";
+        if ($dataSourceKey == null) {
+            return response('Data source key must be filled!', 400, ['Content-Type' => 'application/json']);
+        }
+        $dataSource = self::where('key', $dataSourceKey)->first();
+        if ($dataSource == null) {
+            return response('Data source not found!', 404, ['Content-Type' => 'application/json']); 
+        }
+        $lookupId = Arr::get($dataSource, 'lookup_id');
+        $endpoint = Arr::get($dataSource, 'value');
+        if ($lookupId == null) {
+            return response('Lookup ID must be filled!', 400, ['Content-Type' => 'application/json']);
+        }
+        $lookup = Lookup::find($lookupId);
+        if ($lookup == null) {
+            return response('Lookup not found!', 404, ['Content-Type' => 'application/json']); 
+        }
+        $url = Arr::get($lookup, 'value');
+        return $url.$endpoint;
     }
 }
