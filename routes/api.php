@@ -3,8 +3,6 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-use App\Models\DataSourceLookup;
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -21,5 +19,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('/', function () {
-    return DataSourceLookup::getKursBCAToday();
+    return 'Backend Melek Berita V1';
 });
