@@ -13,15 +13,17 @@ class CreateDataSourceLookupsTable extends Migration
      */
     public function up()
     {
-        Schema::create('data_source_lookups', function (Blueprint $table) {
-            $table->id();
-            $table->string('key')->unique()->nullable(false);
-            $table->string('name')->nullable(false);
-            $table->string('description')->nullable();
-            $table->string('value')->nullable(false);
-            $table->integer('lookup_id')->nullable(false);
-            $table->timestamps();
-        });
+        if (!Schema::hasTable('data_source_lookups')) {
+            Schema::create('data_source_lookups', function (Blueprint $table) {
+                $table->id();
+                $table->string('key')->unique()->nullable(false);
+                $table->string('name')->nullable(false);
+                $table->string('description')->nullable();
+                $table->string('value')->nullable(false);
+                $table->integer('lookup_id')->nullable(false);
+                $table->timestamps();
+            });
+        }
     }
 
     /**
