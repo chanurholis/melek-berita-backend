@@ -7,6 +7,7 @@ use Illuminate\Console\Command;
 use App\Constants;
 use App\Helpers\XmlToJsonHelper;
 use App\Models\DataSourceLookup;
+use Illuminate\Support\Facades\Log;
 use App\Models\WestJavaWeatherForecast;
 
 class WestJavaWeatherForecastCommand extends Command
@@ -33,7 +34,12 @@ class WestJavaWeatherForecastCommand extends Command
     public function __construct()
     {
         parent::__construct();
-        $this->dataSource = DataSourceLookup::getEndpoint(Constants::WEST_JAVA_WEATHER_FORECAST);
+
+        try {
+            $this->dataSource = DataSourceLookup::getEndpoint(Constants::WEST_JAVA_WEATHER_FORECAST);
+        } catch(\Exception $e) {
+            Log::info($e->getMessage());
+        }
     }
 
     /**
