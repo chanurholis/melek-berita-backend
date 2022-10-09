@@ -24,7 +24,7 @@ class DataSourceLookup extends Model
      */
     public static function getKursBCAToday()
     {
-        $dataSourceLookup = self::where('key', Constants::BCA_KURS_HARI_INI)->first();
+        $dataSourceLookup = self::where('key', Constants::BCA_EXCHANGE_RATE_TODAY)->first();
 
         if ($dataSourceLookup) {
             $lookupId = Arr::get($dataSourceLookup, 'lookup_id');
