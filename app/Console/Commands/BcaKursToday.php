@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
 use Symfony\Component\DomCrawler\Crawler;
 
 use App\Models\DataSourceLookup;
@@ -31,7 +32,12 @@ class BcaKursToday extends Command
     public function __construct()
     {
         parent::__construct();
-        $this->dataSource = DataSourceLookup::getKursBCAToday();
+
+        try {
+            $this->dataSource = DataSourceLookup::getKursBCAToday();
+        } catch(\Exception $e) {
+            Log::info($e->getMessage());
+        }
     }
 
     /**
