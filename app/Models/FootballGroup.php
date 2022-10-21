@@ -28,7 +28,7 @@ class FootballGroup extends Model
     public static function getGroupName(String $key, $fieldName)
     {
         if (isEmpty($key)) {
-            return bromResponse(true, 400, 'Key tidak boleh kosong!');
+            return customResponse(true, 400, 'Key tidak boleh kosong!');
         }
         return self::where('key', '=', $key)
             ->select($fieldName)
@@ -45,14 +45,14 @@ class FootballGroup extends Model
     public static function getGroupId(String $key)
     {
         if (isEmpty($key)) {
-            return bromResponse(true, 400, 'Key tidak boleh kosong!');
+            return customResponse(true, 400, 'Key tidak boleh kosong!');
         }
         $footballGroup = self::where('key', '=', $key)
             ->select('id')
             ->first();
         $footballGroupId = Arr::get($footballGroup, 'id');
         if (isEmpty($key)) {
-            return bromResponse(true, 404, 'Football group ID tidak ditemukan!');
+            return customResponse(true, 404, 'Football group ID tidak ditemukan!');
         }
         return $footballGroupId;
     }
