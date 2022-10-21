@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\Football\Standings\WorldCupStandingAction;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,10 +14,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
 Route::get('/', function () {
     return 'Backend Melek Berita V1';
 });
@@ -29,4 +25,10 @@ Route::get('/debug', function () {
     $json = json_encode($xmlObject);
     $phpArray = json_decode($json, true);
     return $phpArray;
+});
+
+Route::prefix('football')->group(function () {
+    Route::prefix('standings')->group(function () {
+        Route::get('world-cup', WorldCupStandingAction::class);
+    });
 });
