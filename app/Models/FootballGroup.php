@@ -18,6 +18,11 @@ class FootballGroup extends Model
 
     protected $guarded = ['*'];
 
+    public function footballStandings()
+    {
+        return $this->belongsTo(FootballStanding::class, 'football_group_id', 'id');
+    }
+
     /**
      * Get group name.
      * 
