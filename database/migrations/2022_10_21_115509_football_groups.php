@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateLookupsTable extends Migration
+class FootballGroups extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,10 @@ class CreateLookupsTable extends Migration
      */
     public function up()
     {
-        Schema::connection('pgsql')->create('lookups', function (Blueprint $table) {
+        Schema::connection('pgsql')->create('football_groups', function (Blueprint $table) {
             $table->id();
-            $table->string('key')->unique()->nullable(false);
+            $table->string('key')->nullable(false);
             $table->string('name')->nullable(false);
-            $table->string('description')->nullable();
-            $table->string('value')->nullable(false);
             $table->timestamps();
         });
     }
@@ -30,6 +28,6 @@ class CreateLookupsTable extends Migration
      */
     public function down()
     {
-        Schema::connection('pgsql')->dropIfExists('lookups');
+        Schema::connection('pgsql')->dropIfExists('football_groups');
     }
 }

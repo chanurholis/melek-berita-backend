@@ -13,17 +13,15 @@ class CreatePersonalAccessTokensTable extends Migration
      */
     public function up()
     {
-        if (!Schema::hasTable('personal_access_tokens')) {
-            Schema::create('personal_access_tokens', function (Blueprint $table) {
-                $table->id();
-                $table->morphs('tokenable');
-                $table->string('name');
-                $table->string('token', 64)->unique();
-                $table->text('abilities')->nullable();
-                $table->timestamp('last_used_at')->nullable();
-                $table->timestamps();
-            });
-        }
+        Schema::connection('pgsql')->create('personal_access_tokens', function (Blueprint $table) {
+            $table->id();
+            $table->morphs('tokenable');
+            $table->string('name');
+            $table->string('token', 64)->unique();
+            $table->text('abilities')->nullable();
+            $table->timestamp('last_used_at')->nullable();
+            $table->timestamps();
+        });
     }
 
     /**
@@ -33,6 +31,6 @@ class CreatePersonalAccessTokensTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('personal_access_tokens');
+        Schema::connection('pgsql')->dropIfExists('personal_access_tokens');
     }
 }

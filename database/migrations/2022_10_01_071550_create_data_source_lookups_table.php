@@ -13,17 +13,15 @@ class CreateDataSourceLookupsTable extends Migration
      */
     public function up()
     {
-        if (!Schema::hasTable('data_source_lookups')) {
-            Schema::create('data_source_lookups', function (Blueprint $table) {
-                $table->id();
-                $table->string('key')->unique()->nullable(false);
-                $table->string('name')->nullable(false);
-                $table->string('description')->nullable();
-                $table->string('value')->nullable(false);
-                $table->integer('lookup_id')->nullable(false);
-                $table->timestamps();
-            });
-        }
+        Schema::connection('pgsql')->create('data_source_lookups', function (Blueprint $table) {
+            $table->id();
+            $table->string('key')->unique()->nullable(false);
+            $table->string('name')->nullable(false);
+            $table->string('description')->nullable();
+            $table->string('value')->nullable(false);
+            $table->integer('lookup_id')->nullable(false);
+            $table->timestamps();
+        });
     }
 
     /**
@@ -33,6 +31,6 @@ class CreateDataSourceLookupsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('data_source_lookups');
+        Schema::connection('pgsql')->dropIfExists('data_source_lookups');
     }
 }
