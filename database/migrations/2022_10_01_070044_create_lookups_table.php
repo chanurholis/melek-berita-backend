@@ -13,17 +13,14 @@ class CreateLookupsTable extends Migration
      */
     public function up()
     {
-        if (!Schema::hasTable('lookups')) {
-            Schema::create('lookups', function (Blueprint $table) {
-                $table->id();
-                $table->string('key')->unique()->nullable(false);
-                $table->string('name')->nullable(false);
-                $table->string('description')->nullable();
-                $table->string('value')->nullable(false);
-                $table->timestamps();
-            });
-        }
-
+        Schema::connection('pgsql')->create('lookups', function (Blueprint $table) {
+            $table->id();
+            $table->string('key')->unique()->nullable(false);
+            $table->string('name')->nullable(false);
+            $table->string('description')->nullable();
+            $table->string('value')->nullable(false);
+            $table->timestamps();
+        });
     }
 
     /**
@@ -33,6 +30,6 @@ class CreateLookupsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('lookups');
+        Schema::connection('pgsql')->dropIfExists('lookups');
     }
 }
